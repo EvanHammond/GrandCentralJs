@@ -1,0 +1,27 @@
+{
+  "name": "GrandCentralJS",
+  "version": "0.0.0",
+  "authors": [
+    "Evan.Hammond@gmail.com"
+  ],
+  "description": "GrandCentral creates a global timer object on a one second interval. This timer can be subscribed to by event objects. GrandCentral will call callbacks on the event object when its iteration interval is reached.",
+  "main": "dist/js/grandcentral.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "Polling",
+    "Interval",
+    "Timer",
+    "EventBus"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/EvanHammond/GrandCentralJs",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

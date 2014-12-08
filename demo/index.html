@@ -1,0 +1,113 @@
+<html>
+<head>
+  <title>GrandCentral Demo</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+  <style>
+    .panel-heading h4 {
+      margin:0;
+    }
+    form {
+      margin-bottom:0;
+    }
+    .container {
+      padding-top:25px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-md-8">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4>Add event trigger to bus <button class="debug btn btn-default btn-xs pull-right">debug</button></h4>
+          </div>
+          <form class="panel-body form-inline">
+            <div class="form-group">
+                <input type="text" placeholder="Name" id="name" class="form-control"/>
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="Interval" id="interval" class="form-control"/>
+            </div>
+            <div class="form-group">
+              <button type="submit" id="add" class="btn btn-primary btn-block">Add</button>
+            </div>
+          </form>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4>Existing triggers</h4>
+          </div>
+          <table class="table existing-triggers panel-body">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th width="100">Interval</th>
+                <th width="75">&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="grandcentral.js"></script>
+
+  <script>
+    $("#add").on('click', function(e) {
+      e.preventDefault();
+
+      var name = $("#name").val(),
+          interval = $("#interval").val();
+
+      if (name !== "") {
+        var t = {
+          name: name,
+          gcInterval: interval,
+          gcCallback: function (obj) {
+            console.log("test!");
+            console.log(this);
+            console.log(obj.name + " triggered! ["+obj._gcGuid+"]");
+          }
+        }
+
+        var $s = $('<tr>'
+          + '<td>' + name + '</td>'
+          + '<td>' + interval + '</td>'
+          + '<td>'
+          + '<button class="remove-trigger btn btn-danger btn-block">'
+          + '<i class="glyphicon glyphicon-trash"></i>'
+          + '</button>'
+          + '</td>'
+          + '</tr>');
+
+        var queued = window.GrandCentral.add(t);
+        $s.data('guid',queued._gcGuid);
+        $(".existing-triggers tbody").append($s);
+      }
+    });
+
+    $(".existing-triggers").on('click','.remove-trigger', function() {
+      var $this = $(this).closest("tr");
+      GrandCentral.remove(GrandCentral.find($this.data('guid')));
+      $this.remove();
+    });
+
+    $(".debug").on('click', function(e) {
+      var $this = $(this);
+      if ($this.hasClass("active")) {
+        GrandCentral.debug = false;
+        $this.removeClass('active').removeClass('btn-success');
+      } else {
+        GrandCentral.debug = true;
+        $this.addClass('active').addClass('btn-success');
+      }
+    });
+  </script>
+</body>
+</html>
