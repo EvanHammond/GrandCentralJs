@@ -87,8 +87,40 @@ __returns:__ boolean
 Stops the spooling service. This action also clears the queue.
 
 
-Bugs and Feedback
+Example
 -------
+### Server Polling
+__Goal:__ Poll the server once every 10 seconds ad infinitum.
+
+```javascript
+var Master = {
+  init: function() {
+    var scope = this;
+    var obj = window.GrandCentral.add({
+      name: "Polling Service",
+      gcInterval: 10,
+      gcScope: scope,
+      gcCallback: scope.callback
+    });
+  },
+  poll: function() {
+    $.get("http://google.com")
+      .done(function() {
+        console.log("success!");
+      })
+      .fail(function() {
+        console.log("failed...");
+      });
+  },
+  callback: function(queued) {
+    console.log("Fired "+queued.name);
+    this.poll();
+  }
+}
+
+Master.init();
+
+```
 
 
 FAQ
