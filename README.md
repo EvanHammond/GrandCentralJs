@@ -9,6 +9,14 @@ Features
 -------
 Setting up server polling is as easy as building objects and adding them to the GrandCentral queue. GrandCentral works by triggering callbacks on queued objects, and is 100% agnostic of any implementation it might trigger.
 
+Installation
+-------
+To install, use bower and reference the repository directly, as such:
+
+```
+bower install grandcentraljs=https://github.com/EvanHammond/grandcentraljs.git^0.1.0 --save
+```
+
 Usage
 -------
 GrandCentral requires objects in its queue to have (at least) a minimal number of properties (but in no way limits the amount of properties a queued object can contain), these properties are used by GrandCentral to process triggers in the queue. GrandCentral, by design, is attached to the window object and is globally accessible.
@@ -22,7 +30,6 @@ var o = GrandCentral.add({
   }
 });
 ```
-
 
 Object Properties
 -------
